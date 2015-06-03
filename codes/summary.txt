@@ -1,0 +1,13 @@
+The code works a CRBM as mentioned in "Unsupervised feature learning for audio classification
+using convolutional deep belief networks" by Lee et. al 2009. The matlab code here is modified 
+from the original version to improve speed by removing certain conditions and doing memory
+pre-allocation. 
+
+The function get_poshidprobs.m extracts the P(h=1|v) where v is the input visible layer - which is
+the decorrelated spectrogram of the audio file. The inputs to the function are:
+> speechpath - path to audio file
+> W - weight matrix 
+> hbias_vec - bias weights of the hidden units
+> pars - struct with model and training parameters
+> spacing - - local neighbourhood size for max-pooling
+Ewhiten - Prinicipal components for decorrelation of the input spectrum using PCA
