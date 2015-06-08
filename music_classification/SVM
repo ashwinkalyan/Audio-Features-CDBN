@@ -1,0 +1,55 @@
+import numpy as np
+from sklearn import svm
+import xlrd 
+import os  
+#inputdir='C:/Users/govindagudi/Documents/MATLAB/Music/fea_test'
+#for file in os.listdir(inputdir):
+#source=inputdir+'/'+file
+
+# 1.xlsx,2.xlsx,3.xlsx are the feature vectors of blue,electronic and pop music which are in the same folder.As I couldnt 
+#read them in a for loop,I a have read them seperately
+#reading blue
+file="C:/Users/govindagudi/Documents/MATLAB/Music/f/1.xlsx"
+blue=xlrd.open_workbook(file)
+sheet=blue.sheet_by_index(0)
+blue=[[sheet.cell_value(r,c) for c in range(sheet.ncols)] for r in range(10000)]
+blue=np.array(blue)
+
+#reading ele
+file="C:/Users/govindagudi/Documents/MATLAB/Music/f/2.xlsx"
+elec=xlrd.open_workbook(file)
+sheet=elec.sheet_by_index(0)
+elec=[[sheet.cell_value(r,c) for c in range(sheet.ncols)] for r in range(10000)]
+elec=np.array(elec)
+
+#reading pop
+file="C:/Users/govindagudi/Documents/MATLAB/Music/f/3.xlsx"
+pop=xlrd.open_workbook(file)
+sheet=pop.sheet_by_index(0)
+pop=[[sheet.cell_value(r,c) for c in range(sheet.ncols)] for r in range(10000)]
+pop=np.array(pop)
+
+
+train=np.concatenate((blue,elec,pop),axis=0)
+Y=[0]*10000+[1]*10000+[2]*10000
+clf = svm.NuSVC()
+clf.fit(X,Y)
+
+#bluet is a testing data which contains only blue genre
+file="C:/Users/govindagudi/Documents/MATLAB/Music/fea_test/bluet.xlsx"
+bluet=xlrd.open_workbook(file)
+sheet=bluet.sheet_by_index(0)
+bluet=[[sheet.cell_value(r,c) for c in range(sheet.ncols)] for r in range(10000)]
+bluet=np.array(bluet)
+
+blueresult=clf.pedict(bluet)
+
+#elect is a testing data which contains only  genre
+file="C:/Users/govindagudi/Documents/MATLAB/Music/fea_test/elect.xlsx"
+elect=xlrd.open_workbook(file)
+sheet=elect.sheet_by_index(0)
+elect=[[sheet.cell_value(r,c) for c in range(sheet.ncols)] for r in range(sheet.nrows)]
+elect=np.array(elect)
+
+eleresult=clf.predict(elect)
+
