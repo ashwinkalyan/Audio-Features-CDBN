@@ -1,0 +1,31 @@
+d=dir('fea/*.xlsx');
+m=[];
+for i=1:length(d);
+    c=xlsread(d(i).name);
+    c=c(1:10000,1:13);
+    m=[m;c];
+    m=zscore(m);
+end
+
+o=ones(10000,1);
+t=2*ones(10000,1);
+h=3*ones(10000,1);
+
+Y=[o;t;h]';
+
+h=dir('fea_test/*.xlsx');
+n=[];
+for i=1:length(h);
+    c=xlsread(h(i).name);
+    c=c(2001:3000,1:13);
+    n=[n;c];
+    n=zscore(n);
+end
+
+o=ones(1000,1);
+t=2*ones(1000,1);
+h=3*ones(1000,1);
+
+y=[o;t;h];
+Class = knnclassify(n, m, Y, 1);
+[ConfusionMat1,labels] = confusionmat(y,Class)
